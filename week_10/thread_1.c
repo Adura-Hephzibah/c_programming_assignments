@@ -87,7 +87,7 @@ int main(void)
 	{
 		sensor_data_array[i].section = i + 1;
 		int create_status = pthread_create(&threads[i], NULL,
-									data_collection, (void *)&sensor_data_array[i]);
+							data_collection, (void *)&sensor_data_array[i]);
 
 		if (create_status)
 		{
