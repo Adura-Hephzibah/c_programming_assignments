@@ -2,24 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Structure to represent a country node */
-typedef struct CountryNode
+/**
+ * struct nationNode - struct to represent a country node
+ * @name: name of country
+ * @next: pointer to next node
+ */
+typedef struct nationNode
 {
 	char name[50];
-	struct CountryNode *next;
-} CountryNode;
+	struct nationNode *next;
+} nationNode;
 
-/* Structure to represent the graph */
+
+/**
+ * struct Graph - struct to represent the graph
+ * @numVertices: number of vertices
+ * @adjacencyLists:	adjancency Lists
+ */
 typedef struct Graph
 {
 	int numVertices;
-	CountryNode **adjacencyLists;
+	nationNode **adjacencyLists;
 } Graph;
 
 /* Function to create a new country node */
-CountryNode *createCountryNode(const char *name)
+nationNode *createnationNode(const char *name)
 {
-	CountryNode *newNode = (CountryNode *)malloc(sizeof(CountryNode));
+	nationNode *newNode = (nationNode *)malloc(sizeof(nationNode));
 
 	strcpy(newNode->name, name);
 	newNode->next = NULL;
@@ -38,8 +47,8 @@ Graph createGraph(int numVertices)
 
 	graph.numVertices = numVertices;
 
-	graph.adjacencyLists = (CountryNode **)malloc(
-			numVertices * sizeof(CountryNode *));
+	graph.adjacencyLists = (nationNode **)malloc(
+			numVertices * sizeof(nationNode *));
 	for (int i = 0; i < numVertices; ++i)
 	{
 		graph.adjacencyLists[i] = NULL;
@@ -80,12 +89,12 @@ void addEdge(Graph *graph, const char *source, const char *destination)
 	if (sourceIndex != -1 && destinationIndex != -1)
 	{
 		/* Add destination to the adjacency list of source */
-		CountryNode *newNode = createCountryNode(destination);
+		nationNode *newNode = createnationNode(destination);
 
 		newNode->next = graph->adjacencyLists[sourceIndex]->next;
 		graph->adjacencyLists[sourceIndex]->next = newNode;
 		/*Add source to the adjacency list of destinatn (assuming undirected graph)*/
-		newNode = createCountryNode(source);
+		newNode = createnationNode(source);
 		newNode->next = graph->adjacencyLists[destinationIndex]->next;
 		graph->adjacencyLists[destinationIndex]->next = newNode;
 	}
@@ -102,7 +111,7 @@ void printGraph(const Graph *graph)
 	for (int i = 0; i < graph->numVertices; ++i)
 	{
 		printf("%s -> ", graph->adjacencyLists[i]->name);
-		CountryNode *current = graph->adjacencyLists[i]->next;
+		nationNode *current = graph->adjacencyLists[i]->next;
 
 		while (current != NULL)
 		{
@@ -113,16 +122,20 @@ void printGraph(const Graph *graph)
 	}
 }
 
-/* Function to delete the graph */
+/**
+ * deleteGraph - function to delete the graph
+ * @graph: argument pointer
+ * Return:
+ */
 void deleteGraph(Graph *graph)
 {
 	for (int i = 0; i < graph->numVertices; ++i)
 	{
-		CountryNode *current = graph->adjacencyLists[i];
+		nationNode *current = graph->adjacencyLists[i];
 
 		while (current != NULL)
 		{
-			CountryNode *temp = current;
+			nationNode *temp = current;
 
 			current = current->next;
 			free(temp);
@@ -149,7 +162,7 @@ int main(void)
 								  "Angola", "Zambia", "Zimbabwe", "Malawi", "Mozambique"};
 	for (int i = 0; i < africaMap.numVertices; ++i)
 	{
-		africaMap.adjacencyLists[i] = createCountryNode(countryNames[i]);
+		africaMap.adjacencyLists[i] = createnationNode(countryNames[i]);
 	}
 
 	/* Add edges (connections) between vertices (countries) */
