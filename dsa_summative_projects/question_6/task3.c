@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /**
  * swap - Swap two integers.
@@ -74,16 +76,36 @@ void print_array(int arr[], int n)
  */
 int main(void)
 {
-	int arr[] = {12, 11, 13, 5, 6, 7, 3, 37};
-	int n = sizeof(arr) / sizeof(arr[0]);
+	/* Seed for random number generation */
+	srand(time(NULL));
 
-	printf("Original array: ");
-	print_array(arr, n);
+	/* Generate a random array */
+	int n = 10; /* Size of the array */
+	int arr[n];
+
+	printf("Random array: ");
+	for (int i = 0; i < n; ++i)
+	{
+		arr[i] = rand() % 100; /* Random integers between 0 and 99 */
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
 
 	build_min_heap(arr, n);
 
 	printf("Min heap: ");
 	print_array(arr, n);
 
+	/*------------------------------------------*/
+
+	int sorted_arr[] = {12, 11, 10, 8, 6, 5, 3};
+	int n2 = sizeof(sorted_arr) / sizeof(sorted_arr[0]);
+
+	printf("Original sorted array: ");
+	print_array(sorted_arr, n2);
+	build_min_heap(sorted_arr, n2);
+
+	printf("Min heap: ");
+	print_array(sorted_arr, n2);
 	return (0);
 }
